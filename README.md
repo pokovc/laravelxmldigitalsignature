@@ -9,7 +9,7 @@ This package allows signing of arbitrary data and whole XML documents using XML 
 run
 
 ```sh
-composer require "iwalpola/laravelxmldigitalsignature"
+composer require "pokovc/xmldigitalsignature"
 ```
 
 followed by
@@ -18,10 +18,10 @@ followed by
 composer update
 ```
 
-add 
+add
 
 ```php
-Iwalpola\XmlDigitalSignature\XmlDigitalSignatureServiceProvider::class
+Pokovc\XmlDigitalSignature\XmlDigitalSignatureServiceProvider::class
 ```
 
 to the "providers" array of config/app.php in your Laravel Project's root directory
@@ -29,13 +29,13 @@ to the "providers" array of config/app.php in your Laravel Project's root direct
 and add
 
 ```php
-'XmlDigitalSignature' => Iwalpola\XmlDigitalSignature\XmlDigitalSignatureFacade::class
+'XmlDigitalSignature' => Pokovc\XmlDigitalSignature\XmlDigitalSignatureFacade::class
 ```
 to the "aliases" array of config/app.php in your Laravel Project root directory
 
 ### Usage
 
-simply add 
+simply add
 
 ```php
 use XmlDigitalSignature;
@@ -73,7 +73,7 @@ catch (\UnexpectedValueException $e)
     exit(1);
 }
 
-dd(XmlDigitalSignature::getSignedDocument());   
+dd(XmlDigitalSignature::getSignedDocument());
 ```
 
 ### Digest (hashing) methods
