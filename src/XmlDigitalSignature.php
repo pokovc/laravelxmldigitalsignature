@@ -324,10 +324,16 @@ class XmlDigitalSignature
 	/**
 	 * Returns the signed XML document
 	 *
+	 * @param   boolean $exclued_header    It will return XML without xml header.
+	 *
 	 * @return	string	Signed XML document
 	 */
-	public function getSignedDocument()
+	public function getSignedDocument($exclude_header = false)
 	{
+		if ($exclude_header) {
+			return $this->doc->C14N();
+		}
+
 		return $this->doc->saveXML();
 	}
 
