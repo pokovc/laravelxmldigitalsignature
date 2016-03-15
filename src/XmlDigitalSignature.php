@@ -461,6 +461,8 @@ class XmlDigitalSignature
 			try
 			{
 				$publicKey = $this->loadFile($publicKey);
+				preg_match('#-----BEGIN CERTIFICATE-----(.+)-----END CERTIFICATE-----#s', $publicKey, $matches);
+				$publicKey = '<X509Data><X509Certificate>' . str_replace("\n", "", $matches[1]) . '</X509Certificate></X509Data>';
 			}
 			catch (\UnexpectedValueException $e)
 			{
@@ -512,7 +514,7 @@ class XmlDigitalSignature
 		}
 
 		// local the node to which the key will be appended
-		$keyValue = $this->doc->getElementsByTagName($this->nodeNsPrefix . 'KeyValue')->item(0);
+		$keyValue = $this->doc->getElementsByTagName($this->nodeNsPrefix . 'KeyInfo')->item(0);
 		if (is_null($keyValue))
 		{
 			throw new \UnexpectedValueException('Unabled to locate the KeyValue node');
@@ -720,8 +722,8 @@ class XmlDigitalSignature
 		$keyInfo = $this->doc->createElement($this->nodeNsPrefix . 'KeyInfo');
 		$signature->appendChild($keyInfo);
 
-		$keyValue = $this->doc->createElement($this->nodeNsPrefix . 'KeyValue');
-		$keyInfo->appendChild($keyValue);
+		// $keyValue = $this->doc->createElement($this->nodeNsPrefix . 'KeyValue');
+		// $keyInfo->appendChild($keyValue);
 	}
 
 	/**
@@ -751,7 +753,8 @@ class XmlDigitalSignature
 
 		if (is_string($c14nData) && strlen($c14nData))
 		{
-			return $c14nData;
+			//strip down xmlns:default ...
+			return preg_replace("# xmlns:default=\"[^\"]*\"#", "", $c14nData);
 		}
 
 		throw new \UnexpectedValueException('Unable to canonicalize the provided DOM document');
@@ -765,7 +768,7 @@ class XmlDigitalSignature
 	 * @param 	bool						$digestObject	Whether the object data should be digested
 	 * @throws	\UnexpectedValueException					If the canonicalization process failed
 	 */
-	public function addObject($data, $objectId = null, $digestObject = false)
+	public function addObject($data, $nodeToSign = '', $objectId = null, $digestObject = false)
 	{
 		if (is_null($this->doc))
 		{
@@ -793,9 +796,15 @@ class XmlDigitalSignature
 		}
 
 		// add the object to the dom
-		$object = $this->doc->createElement($this->nodeNsPrefix . 'Object');
-		$object->appendChild($data);
-		$this->doc->getElementsByTagName('Signature')->item(0)->appendchild($object);
+		if ($nodeToSign) {
+			$this->doc->insertBefore($data, $this->doc->getElementsByTagName('Signature')->item(0));
+			$this->doc->getElementsByTagName('PDoc')->item(0)->appendchild($this->doc->getElementsByTagName('Signature')->item(0));
+			$object = $this->doc->getElementsByTagName($nodeToSign)->item(0);
+		} else {
+			$object = $this->doc->createElement($this->nodeNsPrefix . 'Object');
+			$object->appendChild($data);
+			$this->doc->getElementsByTagName('Signature')->item(0)->appendchild($object);
+		}
 
 		// objects must have an id attribute which will
 		// correspond to the reference URI attribute
