@@ -1,19 +1,19 @@
 {
-    "name": "iwalpola/xmldigitalsignature",
-    "description": "A Laravel Package made from MrMarchello/php-XmlDigitalSignature",
+    "name": "pokovc/xmldigitalsignature",
+    "description": "A Laravel Package made from iwalpola/php-XmlDigitalSignature",
     "license": "MIT",
     "keywords": ["laravel"],
     "authors": [
         {
-            "name": "iwalpola",
-            "email": "iwalpola@gmail.com"
+            "name": "pokovc",
+            "email": "gasper.noc@gmail.com"
         }
     ],
     "minimum-stability": "stable",
     "require": {},
     "autoload": {
         "psr-4": {
-            "Iwalpola\\XmlDigitalSignature\\": "src"
+            "Pokovc\\XmlDigitalSignature\\": "src"
         }
     }
 }

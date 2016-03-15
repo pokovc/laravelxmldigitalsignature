@@ -1,6 +1,6 @@
 <?php
 
-namespace Iwalpola\XmlDigitalSignature;
+namespace Pokovc\XmlDigitalSignature;
 
 use Illuminate\Support\ServiceProvider;
 
