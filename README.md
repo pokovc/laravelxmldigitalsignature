@@ -21,7 +21,7 @@ composer update
 add
 
 ```php
-Pokovc\XmlDigitalSignature\XmlDigitalSignatureServiceProvider::class
+Pokovc\XmlDigitalSignature\XmlDigitalSignatureServiceProvider
 ```
 
 to the "providers" array of config/app.php in your Laravel Project's root directory
@@ -29,7 +29,7 @@ to the "providers" array of config/app.php in your Laravel Project's root direct
 and add
 
 ```php
-'XmlDigitalSignature' => Pokovc\XmlDigitalSignature\XmlDigitalSignatureFacade::class
+'XmlDigitalSignature' => Pokovc\XmlDigitalSignature\XmlDigitalSignatureFacade
 ```
 to the "aliases" array of config/app.php in your Laravel Project root directory
 
